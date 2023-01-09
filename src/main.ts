@@ -9,6 +9,8 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter([]),
     provideStore({ NgVault: vaultReducer }),
-    provideStoreDevtools(),
+    provideStoreDevtools({
+      maxAge: 25, // Retains last 25 states
+    }),
   ],
 }).catch((err) => console.error(err));

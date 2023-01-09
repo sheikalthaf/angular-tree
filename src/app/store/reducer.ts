@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { addNgVault } from './action';
+import { addNgVault, fileActions } from './action';
+import { NgFilesTable } from './interface';
 import { ngFilesAdapter, ngFilesInitialState } from './ngfiles';
 import { ngFolderAdapter, ngFolderInitialState } from './ngfolder';
 import { ngVaultAdapter, ngVaultInitialState } from './ngvault';
@@ -19,13 +20,20 @@ const initialState: TreeState = {
 const _vaultReducer = createReducer(
   initialState,
   on(addNgVault, (state, { data }) => {
-    console.log(data);
     return {
       ...state,
       ngVaults: ngVaultAdapter.setAll(data.NgVault, state.ngVaults),
       ngFolders: ngFolderAdapter.setAll(data.NgFolders, state.ngFolders),
       ngFiles: ngFilesAdapter.setAll(data.NgFiles, state.ngFiles),
     };
+  }),
+  on(fileActions.edit, (state, { data }) => {
+    const filesTable = {
+      ...state.ngFiles.entities[data.Id],
+      Name: data.Name,
+    } as NgFilesTable;
+    const files = ngFilesAdapter.upsertOne(filesTable, state.ngFiles);
+    return { ...state, ngFiles: files };
   })
 );
 

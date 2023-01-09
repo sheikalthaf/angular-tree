@@ -1,2 +1,6 @@
-<h1>Hello World</h1>
-<pre *ngFor="let vault of vaults$ | async">{{ vault | json }}</pre>
+<main class="p-4">
+  <app-ngvault
+    *ngFor="let vault of vaults$ | async"
+    [value]="vault"
+  ></app-ngvault>
+</main>
