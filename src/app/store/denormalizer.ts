@@ -3,6 +3,7 @@ import { NgFiles, NgFolders, NgVault } from '../interface';
 import { NgFilesTable, NgFoldersTable, NgVaultTable } from './interface';
 
 interface NgVaultInput {
+  searchText: string;
   ngVaults: string[];
   ngVaultsEntities: Dictionary<NgVaultTable>;
   ngFolderEntities: Dictionary<NgFoldersTable>;
@@ -24,8 +25,13 @@ export function denormalizeNgFolders(ids: string[], data: NgVaultInput) {
     const value = data.ngFolderEntities[id] as NgFoldersTable;
     const ChildFolders = denormalizeNgFolders(value?.ChildFolders, data);
     const Files = denormalizeNgFiles(value?.Files, data);
-    const ngFolder: NgFolders = { ...value, ChildFolders, Files };
-    acc.push(ngFolder);
+    if (
+      ChildFolders.length ||
+      value.Name.toLowerCase().includes(data.searchText)
+    ) {
+      const ngFolder: NgFolders = { ...value, ChildFolders, Files };
+      acc.push(ngFolder);
+    }
     return acc;
   }, []);
 }

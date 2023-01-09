@@ -8,7 +8,7 @@ import { NgFolderComponent } from './ngfolder.component';
   imports: [CommonModule, NgFolderComponent],
   selector: 'app-ngvault',
   template: `
-    <h4 class="font-bold p-4 bg-gray-200 rounded-md sticky top-0">
+    <h4 class="font-bold p-4 bg-indigo-300 rounded-md sticky top-0">
       {{ value.Name }}
     </h4>
     <app-ngfolder

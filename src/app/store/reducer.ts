@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { addNgVault, fileActions } from './action';
+import { addNgVault, fileActions, treeActions } from './action';
 import { NgFilesTable } from './interface';
 import { ngFilesAdapter, ngFilesInitialState } from './ngfiles';
 import { ngFolderAdapter, ngFolderInitialState } from './ngfolder';
@@ -11,10 +11,13 @@ class NgVaultStateI {
   ngFiles = ngFilesInitialState;
 }
 
-export class TreeState extends NgVaultStateI {}
+export class TreeState extends NgVaultStateI {
+  searchText: string = '';
+}
 
 const initialState: TreeState = {
   ...new NgVaultStateI(),
+  searchText: '',
 };
 
 const _vaultReducer = createReducer(
@@ -27,6 +30,10 @@ const _vaultReducer = createReducer(
       ngFiles: ngFilesAdapter.setAll(data.NgFiles, state.ngFiles),
     };
   }),
+  on(treeActions.searchtext, (state, { data }) => ({
+    ...state,
+    searchText: data,
+  })),
   on(fileActions.edit, (state, { data }) => {
     const filesTable = {
       ...state.ngFiles.entities[data.Id],

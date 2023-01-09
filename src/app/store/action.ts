@@ -13,3 +13,10 @@ export const fileActions = createActionGroup({
     edit: props<{ data: NgFiles }>(),
   },
 });
+
+export const treeActions = createActionGroup({
+  source: 'tree actions',
+  events: {
+    searchText: props<{ data: string }>(),
+  },
+});

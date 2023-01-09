@@ -24,6 +24,11 @@ export const selectNgVaultState = createSelector(
   (state) => state.ngVaults
 );
 
+export const selectSearchText = createSelector(
+  selectTreeState,
+  (state) => state.searchText
+);
+
 export const selectNgFolderState = createSelector(
   selectTreeState,
   (state) => state.ngFolders
@@ -84,12 +89,20 @@ export const selectAllEntities = createSelector(
   selectNgVaultEntity,
   selectNgFolderEntity,
   selectNgFilesEntity,
-  (ngVaults, ngVaultsEntities, ngFolderEntities, ngFilesEntities) => {
+  selectSearchText,
+  (
+    ngVaults,
+    ngVaultsEntities,
+    ngFolderEntities,
+    ngFilesEntities,
+    searchText
+  ) => {
     const data = {
       ngVaults: ngVaults as string[],
       ngVaultsEntities,
       ngFolderEntities,
       ngFilesEntities,
+      searchText,
     };
     return denormalizeNgVaults(data);
   }
